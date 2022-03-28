@@ -3,10 +3,14 @@ const mongodb = require("mongodb");
 const cors = require("cors");
 const server = express();
 
+//create MongoDB Client
 const mongoClient = mongodb.MongoClient; 
 
-const DB_URL = "mongodb+srv://cyclobold_user:e6b5eBt.$5PAcgx@cluster0.qcoqo.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+//Get the link to your database from your MongoDB Dashboard
+//Remember to change your password
+const DB_URL = "mongodb+srv://cyclobold_user:<password>@cluster0.qcoqo.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 
+//Create an instance of the MongoClient
 let connection = new mongoClient(DB_URL);
 
 
@@ -35,8 +39,13 @@ server.post("/create-post", function(request, response){
 
 
     //Submit the data to mongodb
+    //connect the instance of your MongoCLient with the connect() method. 
+    //This method returns a promise
     connection.connect().then(() => {
 
+        //insert a single item into the 'posts' collection of the 'test_posts' database
+        //'test_posts' database will be created if it does not exist
+        //'posts' collection will also be created if it does not exist
         connection.db("test_posts").collection("posts").insertOne({
             post_title: post_title,
             post_message: post_message,
