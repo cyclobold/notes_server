@@ -36,6 +36,60 @@ server.get("/get-posts", async function(request, response){
 })
 
 
+server.get("/get-post", async function(request, response){
+    post_id = request.query.post_id;
+
+    post_id = mongodb.ObjectId(post_id).toString();
+
+    console.log(post_id);
+
+    result = await _conn.connect();
+
+    if(result){
+       search_result = await _conn.db(process.env.DB_NAME).collection("posts").findOne({_id: mongodb.ObjectId(post_id)});
+        console.log(search_result)
+       if(search_result){
+           response.send({
+               data: search_result
+           })
+       }
+    
+    }
+
+
+})
+
+
+server.post("/update-post", async function(request, response){
+    post_title = request.body.post_title;
+    post_summary = request.body.post_summary;
+    post_content = request.body.post_content;
+    post_id = request.body.post_id;
+
+
+    result = await _conn.connect();
+
+    if(result){
+       feedback =  await _conn.db(process.env.DB_NAME).collection("posts").updateOne({_id: mongodb.ObjectId(post_id)}, {$set: {
+            post_title: post_title,
+            post_summary: post_summary,
+            post_content: post_content
+        }})
+
+        if(feedback){
+            response.send({
+                message: "Post updated successfully", 
+                code: "success"
+            })
+        }
+
+
+    }
+
+
+})
+
+
 server.post("/create-post", async function(request, response){
     const post_title = request.body.postTitle;
     const post_summary = request.body.postSummary;
