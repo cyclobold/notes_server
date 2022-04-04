@@ -158,7 +158,7 @@ server.get("/users", function(request, response){
 
 
 
-
-server.listen(process.env.PORT, function(){
+const PORT = process.env.PORT || 5000;
+server.listen(PORT, function(){
     console.log("Server is listening ...")
 })
