@@ -18,6 +18,16 @@ const DB_URL = process.env.DB_HOST_URL
 
 const _conn = new mongoClient(DB_URL);
 
+//Home
+server.get("/", function(request, response){
+
+    response.send({
+        message: 'Welcome home',
+        data: null
+    })
+
+})
+
 //Endpoints
 server.get("/get-posts", async function(request, response){
    feedback = await _conn.connect();
