@@ -2,6 +2,7 @@ const express = require("express");
 const mongodb = require("mongodb");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const fs = require("fs");
 
 dotenv.config(); //load dotenv
 
@@ -122,6 +123,26 @@ server.post("/create-post", async function(request, response){
 
 
 
+
+})
+
+
+server.get("/users", function(request, response){
+    // data = fs.readFileSync("data.json");
+    // data = JSON.parse(data);
+    // console.log(data);
+   
+    fs.readFile("data.json", function(error, result){
+       if(error) throw new error;
+
+       result = JSON.parse(result);
+
+       console.log(result);
+
+
+
+
+    })
 
 })
 
